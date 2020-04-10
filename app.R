@@ -1,6 +1,6 @@
 library(shiny)
-library(rvest)
-library(tidyverse)
+#library(rvest)
+#library(tidyverse)
 library(forecast)
 library(not)
 
@@ -471,19 +471,23 @@ read_data_emma_secure <- function() {
 	
 }
 
-
 read_data_manual <- function() {
 	
 tested_actual <- 
-c(1296,  1497,  1267,  1775,   386,  2748,  1424,  2255,  1122,  2053,  1447,  1301,  1215,  1698,  3597,  4975,  2533,  3826,  6337,  5779,  8400,  2355,  5842,  5522,  5605,  6491,  6583,  7847, 8911,  6999,  6961,  7209,  8240,  9793, 10215, 10590,  9406, 12334, 13313, 10912, 12959, 10713)
+c(1296,  1497,  1267,  1775,   386,  2748,  1424,  2255,  1122,  2053,  1447,  1301,  1215,  1698,  3597,  4975,  2533,  3826,  6337,  5779,  8400,  2355,  5842,  5522,  5605,  6491,  6583,  7847, 8911,  6999,  6961,  7209,  8240,  9793, 10215, 10590,  9406, 12334, 13313, 10912, 12959, 10713, 13543)
 
-cases_actual <- c(5,    3,   12,    4,   12,   36,   29,   48,   45,   69,   43,   61,   78,  136,  202,  342,  251,  152,  407,  676,  643,  714, 1035,  665,  967, 1427, 1452, 2129, 2885, 2546, 2433, 2619, 3009, 4324, 4244, 4450, 3735, 5903, 3802, 3634, 5492, 4344)
+cases_actual <- c(5,    3,   12,    4,   12,   36,   29,   48,   45,   69,   43,   61,   78,  136,  202,  342,  251,  152,  407,  676,  643,  714, 1035,  665,  967, 1427, 1452, 2129, 2885, 2546, 2433, 2619, 3009, 4324, 4244, 4450, 3735, 5903, 3802, 3634, 5492, 4344, 5706)
 
-deaths_actual <- c(1,   0,   1,   2,   1,   2,   2,   1,  10,  14,  20,  16,  32,  41,  33,  56,  48,  54,  87, 156, 181, 260, 209, 180, 381, 563, 569, 684, 708, 621, 439, 786, 938, 881)
+extra_cases <- c(5, 10, 69, 46, 241, 243, 278, 222, 265, 296, 341, 254, 374, 331)
+
+cases_actual[29:(29+14-1)] <- cases_actual[29:(29+14-1)] + extra_cases
+
+deaths_actual <- c(1,   0,   1,   2,   1,   2,   2,   1,  10,  14,  20,  16,  32,  41,  33,  56,  48,  54,  87, 156, 181, 260, 209, 180, 381, 563, 569, 684, 708, 621, 439, 786, 938, 881, 980)
 
 		list(tested_actual=tested_actual, cases_actual=cases_actual, deaths_actual=deaths_actual)
 	
 }
+
 
 
 read_data_covid <- function() {
@@ -620,7 +624,8 @@ radioButtons("radio", h3("Trend estimates (references and methodology notes at t
 			h6("[piecewise quadratic trend]", tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform", "Anscombe transform"), "+", tags$a(href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12322", "NOT with a piecewise-linear, continuous fit"), "+", tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform#Inversion", "asymptotically unbiased inverse Anscombe")),
 			h6("[default in R package 'forecast'] R package ", tags$a(href="https://CRAN.R-project.org/package=forecast", "forecast")),
 			h6("[piecewise constant trend]",  tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform", "Anscombe transform"), "+", tags$a(href="https://link.springer.com/article/10.1007/s42952-020-00060-x", "WBS2.SDLL"), "+ least-squares fit to the original data with the detected change-point locations"),
-			h6("[data sources]", tags$a(href="https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_United_Kingdom", "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_United_Kingdom"), "and", tags$a(href="https://github.com/emmadoughty/Daily_COVID-19/blob/master/Data/COVID19_by_day.csv", "https://github.com/emmadoughty/Daily_COVID-19/blob/master/Data/COVID19_by_day.csv")),
+			h6("[data source]", tags$a(href="https://www.gov.uk/guidance/coronavirus-covid-19-information-for-the-public#number-of-cases", "Department of Health and Social Care and Public Health England")),
+#			h6("[data sources]", tags$a(href="https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_United_Kingdom", "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_United_Kingdom"), "and", tags$a(href="https://github.com/emmadoughty/Daily_COVID-19/blob/master/Data/COVID19_by_day.csv", "https://github.com/emmadoughty/Daily_COVID-19/blob/master/Data/COVID19_by_day.csv")),
 			h6("[this app]", tags$a(href="https://github.com/pfryz/covid-19-deaths", "https://github.com/pfryz/covid-19-deaths")),
 			h6("[author]", tags$a(href="http://stats.lse.ac.uk/fryzlewicz/", "Piotr Fryzlewicz"))
 
