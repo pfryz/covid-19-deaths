@@ -568,6 +568,9 @@ fcast_deaths <- function() {
 	d_ans_fcast_pl <- clipped(2 * d_ans_fit_pl[n] - d_ans_fit_pl[n-1], 0, Inf)
 	d_fit_pq <- clipped(inv_ans(d_ans_fit_pl), 0, Inf)
 	d_fcast_pq <- clipped(round(inv_ans(d_ans_fcast_pl)), 0, Inf)
+	
+	d_fit_pl <- clipped(robust.not(d), 0, Inf)
+	d_fcast_pl <- clipped(round(2 * d_fit_pl[n] - d_fit_pl[n-1]), 0, Inf)
 
 	d_fit_fcast_tv <- forecast(d, 1)
 	d_fit_tv <- clipped(as.numeric(d_fit_fcast_tv$fitted), 0, Inf)
@@ -587,7 +590,7 @@ fcast_deaths <- function() {
 
 	
 	
-	list(d=d, d_ans=d_ans, d_ans_fit_pl=d_ans_fit_pl, d_ans_fcast_pl=d_ans_fcast_pl, d_fit_pq=d_fit_pq, d_fcast_pq=d_fcast_pq, d_fit_tv=d_fit_tv, d_fcast_tv=d_fcast_tv, d_fit_tva=d_fit_tva, d_fcast_tva=d_fcast_tva, d_fit_lc=d_fit_lc, d_fcast_lc=d_fcast_lc)	
+	list(d=d, d_ans=d_ans, d_ans_fit_pl=d_ans_fit_pl, d_ans_fcast_pl=d_ans_fcast_pl, d_fit_pq=d_fit_pq, d_fcast_pq=d_fcast_pq, d_fit_tv=d_fit_tv, d_fcast_tv=d_fcast_tv, d_fit_tva=d_fit_tva, d_fcast_tva=d_fcast_tva, d_fit_lc=d_fit_lc, d_fcast_lc=d_fcast_lc, d_fit_pl=d_fit_pl, d_fcast_pl=d_fcast_pl)	
 	
 }
 
@@ -605,7 +608,7 @@ ui <- function(req) {
     sidebarPanel(
 
 radioButtons("radio", h3("Trend estimates (references and methodology notes at the bottom of the page)"),
-                        choices = list("piecewise quadratic" = 1, "default in R package 'forecast'" = 2, "piecewise constant" = 3),
+                        choices = list("piecewise linear" = 1, "piecewise quadratic" = 2, "default in R package 'forecast'" = 3, "piecewise constant" = 4),
                                        ,selected = 1)
                                      
 
@@ -621,6 +624,7 @@ radioButtons("radio", h3("Trend estimates (references and methodology notes at t
       			h4("black: actual figures", align="center", style = "color:black"),
 			h4("brown: statistical trend estimates", align="center", style = "color:brown"),
 			h6("References:"),
+			h6("[piecewise linear trend]", tags$a(href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12322", "NOT with a piecewise-linear, continuous fit")),			
 			h6("[piecewise quadratic trend]", tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform", "Anscombe transform"), "+", tags$a(href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12322", "NOT with a piecewise-linear, continuous fit"), "+", tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform#Inversion", "asymptotically unbiased inverse Anscombe")),
 			h6("[default in R package 'forecast'] R package ", tags$a(href="https://CRAN.R-project.org/package=forecast", "forecast")),
 			h6("[piecewise constant trend]",  tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform", "Anscombe transform"), "+", tags$a(href="https://link.springer.com/article/10.1007/s42952-020-00060-x", "WBS2.SDLL"), "+ least-squares fit to the original data with the detected change-point locations"),
@@ -643,8 +647,9 @@ server <- function(input, output) {
 
 	
 	output$f_deaths <- renderText({
-		
-		if (input$radio == 1) pred_deaths <- dd$d_fcast_pq else if (input$radio == 2) pred_deaths <- dd$d_fcast_tv else pred_deaths <- dd$d_fcast_lc
+
+		if (input$radio == 1) pred_deaths <- dd$d_fcast_pl else if
+		  (input$radio == 2) pred_deaths <- dd$d_fcast_pq else if (input$radio == 3) pred_deaths <- dd$d_fcast_tv else pred_deaths <- dd$d_fcast_lc
 		
 		paste("Next day's predicted number of deaths:", pred_deaths)
 		
@@ -655,9 +660,10 @@ server <- function(input, output) {
 	output$ts_plot <- renderPlot({
 
     		ts.plot(dd$d, main="Daily number of deaths, starting from 6th March 2020", ylab="", xlab="Day number")
-   if (input$radio == 1) 		lines(dd$d_fit_pq, col="brown", lwd=2)
-   if (input$radio == 2)	lines(dd$d_fit_tv, col="brown", lwd=2)
-   if (input$radio == 3)	lines(dd$d_fit_lc, col="brown", lwd=2)
+	if (input$radio == 1)		lines(dd$d_fit_pl, col="brown", lwd=2)
+   if (input$radio == 2) 		lines(dd$d_fit_pq, col="brown", lwd=2)
+   if (input$radio == 3)	lines(dd$d_fit_tv, col="brown", lwd=2)
+   if (input$radio == 4)	lines(dd$d_fit_lc, col="brown", lwd=2)
 
 
     })
