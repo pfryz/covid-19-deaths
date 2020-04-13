@@ -651,7 +651,7 @@ server <- function(input, output) {
 		if (input$radio == 1) pred_deaths <- dd$d_fcast_pl else if
 		  (input$radio == 2) pred_deaths <- dd$d_fcast_pq else if (input$radio == 3) pred_deaths <- dd$d_fcast_tv else pred_deaths <- dd$d_fcast_lc
 		
-		paste("Next day's predicted number of deaths:", pred_deaths)
+		paste("Next day's predicted number of reported deaths:", pred_deaths)
 		
 		
 	})
@@ -659,7 +659,7 @@ server <- function(input, output) {
 	
 	output$ts_plot <- renderPlot({
 
-    		ts.plot(dd$d, main="Daily number of deaths, starting from 6th March 2020", ylab="", xlab="Day number")
+    		ts.plot(dd$d, main="Daily number of reported deaths, starting from 6th March 2020", ylab="", xlab="Day number")
 	if (input$radio == 1)		lines(dd$d_fit_pl, col="brown", lwd=2)
    if (input$radio == 2) 		lines(dd$d_fit_pq, col="brown", lwd=2)
    if (input$radio == 3)	lines(dd$d_fit_tv, col="brown", lwd=2)
