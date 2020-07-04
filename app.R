@@ -499,7 +499,7 @@ cases_actual[29:(29+14-1)] <- cases_actual[29:(29+14-1)] + extra_cases
 
 #deaths_actual <- c(1,   0,   1,   2,   1,   2,   2,   1,  10,  14,  20,  16,  32,  41,  33,  56,  48,  54,  87, 156, 181, 260, 209, 180, 381, 563, 569, 684, 708, 621, 439, 786, 938, 881, 980, 917, 737, 717, 778, 761, 861, 847, 888, 596, 449, 823, 759, 616, 684, 813, 413, 360, 586, 765)
 
-deaths_actual <- c(1,    1,    0,    1,    4,    0,    2,    1,   18,   15,   22,   16,   34,   43,   36,   56,   35,   74,  149,  186,  183,  284,  294,  214,  374,  382,  670,  652,  714,  760,  644,  568, 1038, 1034, 1103, 1152,  839,  686,  744, 1044,  842, 1029,  935, 1115,  498,  559, 1172,  837,  727, 1005,  843,  420,  338,  909,  765, 674, 739, 621, 315, 288, 693, 649, 539, 626, 346, 269, 210, 627, 494, 428, 384, 468, 170, 160, 545, 363, 338, 351, 282, 118, 121, 134, 412, 377, 324, 215, 113, 111, 324, 359, 176, 357, 204, 77, 55, 286, 245, 151, 202, 181, 36, 38, 233, 184, 135, 173, 128, 43, 15, 171, 154, 149, 186, 100, 36, 25, 155, 176, 89, 137)
+deaths_actual <- c(1,    1,    0,    1,    4,    0,    2,    1,   18,   15,   22,   16,   34,   43,   36,   56,   35,   74,  149,  186,  183,  284,  294,  214,  374,  382,  670,  652,  714,  760,  644,  568, 1038, 1034, 1103, 1152,  839,  686,  744, 1044,  842, 1029,  935, 1115,  498,  559, 1172,  837,  727, 1005,  843,  420,  338,  909,  765, 674, 739, 621, 315, 288, 693, 649, 539, 626, 346, 269, 210, 627, 494, 428, 384, 468, 170, 160, 545, 363, 338, 351, 282, 118, 121, 134, 412, 377, 324, 215, 113, 111, 324, 359, 176, 357, 204, 77, 55, 286, 245, 151, 202, 181, 36, 38, 233, 184, 135, 173, 128, 43, 15, 171, 154, 149, 186, 100, 36, 25, 155, 176, 89, 137, 67)
 
 		list(tested_actual=tested_actual, cases_actual=cases_actual, deaths_actual=deaths_actual)
 	
@@ -655,7 +655,7 @@ radioButtons("radio", h3("Trend estimates (references and methodology notes at t
 
     mainPanel(
 
-	h4("Last updated 3 July 2020"),
+	h4("Last updated 4 July 2020"),
 	h3(textOutput("f_deaths")),
       plotOutput(outputId = "ts_plot"),
       			h4("black: actual figures", align="center", style = "color:black"),
@@ -665,7 +665,7 @@ radioButtons("radio", h3("Trend estimates (references and methodology notes at t
 			h6("[piecewise quadratic trend]", tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform", "Anscombe transform"), "+", tags$a(href="https://rss.onlinelibrary.wiley.com/doi/full/10.1111/rssb.12322", "NOT with a piecewise-linear, continuous fit"), "+", tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform#Inversion", "asymptotically unbiased inverse Anscombe")),
 			h6("[default in R package 'forecast'] R package ", tags$a(href="https://CRAN.R-project.org/package=forecast", "forecast")),
 			h6("[piecewise constant trend]",  tags$a(href="https://en.wikipedia.org/wiki/Anscombe_transform", "Anscombe transform"), "+", tags$a(href="https://link.springer.com/article/10.1007/s42952-020-00060-x", "WBS2.SDLL"), "+ least-squares fit to the original data with the detected change-point locations"),
-			h6("[data source]", tags$a(href="https://twitter.com/dhscgovuk?lang=en", "Department of Health and Social Care")),
+			h6("[data source]", tags$a(href="https://coronavirus.data.gov.uk/", "https://coronavirus.data.gov.uk/")),
 #			h6("[data sources]", tags$a(href="https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_United_Kingdom", "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_the_United_Kingdom"), "and", tags$a(href="https://github.com/emmadoughty/Daily_COVID-19/blob/master/Data/COVID19_by_day.csv", "https://github.com/emmadoughty/Daily_COVID-19/blob/master/Data/COVID19_by_day.csv")),
 			h6("[this app]", tags$a(href="https://github.com/pfryz/covid-19-deaths", "https://github.com/pfryz/covid-19-deaths")),
 			h6("[author]", tags$a(href="http://stats.lse.ac.uk/fryzlewicz/", "Piotr Fryzlewicz"))
